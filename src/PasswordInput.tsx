@@ -8,12 +8,12 @@ interface Props {
 const disabledInputs: number[] = [];
 
 const PasswordInput: FC<Props> = ({ password, onSucces }) => {
-  const [isPasswordVisible, togglePasswordVisibility] = useState<boolean>(
-    false
-  );
   const inputsRef: any = useRef([]);
   const [length] = useState(
     Math.floor(Math.random() * 5) + password.length + 2
+  );
+  const [isPasswordVisible, togglePasswordVisibility] = useState<boolean>(
+    false
   );
 
   const fillDisabledInputs = useCallback(() => {
@@ -53,6 +53,7 @@ const PasswordInput: FC<Props> = ({ password, onSucces }) => {
       <div>
         {Array.from({ length }).map((_: any, idx: number) => (
           <input
+            name={`password char ${idx}`}
             autoFocus={idx === 0}
             key={idx}
             type={isPasswordVisible ? "text" : "password"}
@@ -61,21 +62,23 @@ const PasswordInput: FC<Props> = ({ password, onSucces }) => {
             minLength={1}
             maxLength={1}
             required
-            value={
-              idx === disabledInputs.find((el: number) => el === idx)
-                ? password[idx]
-                : undefined
-            }
+            // value={
+            //   idx === disabledInputs.find((el: number) => el === idx)
+            //     ? password[idx]
+            //     : undefined
+            // }
           />
         ))}
       </div>
-      <input type="submit" value="submit" />
-      <input
-        type="checkbox"
-        onChange={() => {
-          togglePasswordVisibility(!isPasswordVisible);
-        }}
-      />
+      <div>
+        <input type="submit" value="submit" />
+        <input
+          type="checkbox"
+          onChange={() => {
+            togglePasswordVisibility(!isPasswordVisible);
+          }}
+        />
+      </div>
     </form>
   );
 };
