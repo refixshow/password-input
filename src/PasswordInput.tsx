@@ -27,7 +27,7 @@ const PasswordInput: FC<Props> = ({ password, onSucces }) => {
 
       if (i >= password.length) disabledInputs.push(i);
     }
-  }, [password, onSucces, length]);
+  }, [password, length]);
 
   fillDisabledInputs();
 
