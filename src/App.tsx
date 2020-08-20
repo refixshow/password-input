@@ -1,15 +1,24 @@
-import React, { FC } from "react";
+import React, { FC, useState } from "react";
 import PasswordInput from "./PasswordInput";
 
 const App: FC = () => {
-  // IF PASSWORD IS STRONG
+  // PASSWORD IS STRONG
+  const [isPasswordCorrect, setIsPasswordCorrect] = useState<boolean>(false);
 
   const password: String = "StrongP@ssw0rd!";
+  // const password: String = "123";
   const onSucces: () => void = () => {
-    console.log("Password is correct!");
+    setIsPasswordCorrect(true);
   };
-
-  return <PasswordInput password={password} onSucces={onSucces} />;
+  return (
+    <div className="container">
+      {isPasswordCorrect ? (
+        <h2>Logged In!</h2>
+      ) : (
+        <PasswordInput password={password} onSucces={onSucces} />
+      )}
+    </div>
+  );
 };
 
 export default App;

@@ -1,0 +1,28 @@
+* {
+  margin: 0;
+  padding: 0;
+}
+.container {
+  display: flex;
+  height: 100vh;
+  width: 80%;
+  margin: 0 auto;
+  justify-content: center;
+  align-items: center;
+}
+.container input[type="text"],
+.container input[type="password"] {
+  width: 30px;
+  padding: 15px;
+  text-align: center;
+}
+.container input[type="submit"] {
+  margin: 30px;
+  padding: 10px 25px;
+  cursor: pointer;
+}
+.container form {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}

@@ -1,34 +1,41 @@
-import React, { useCallback, useState, useRef, FC } from "react";
-
-const disabledInputs: number[] = [];
+import React, { useCallback, useState, useRef, FC, useEffect } from "react";
 
 interface Props {
   password: String;
   onSucces: () => void;
 }
 
+const disabledInputs: number[] = [];
+
 const PasswordInput: FC<Props> = ({ password, onSucces }) => {
+  const [isPasswordVisible, togglePasswordVisibility] = useState<boolean>(
+    false
+  );
   const inputsRef: any = useRef([]);
   const [length] = useState(
     Math.floor(Math.random() * 5) + password.length + 2
   );
 
-  for (let i: number = 0; i < length; i++) {
-    const randomNumb: number = Math.floor(Math.random() * password.length);
-    if (
-      !disabledInputs.includes(randomNumb) &&
-      disabledInputs.length < password.length / 3
-    )
-      disabledInputs.push(randomNumb);
+  const fillDisabledInputs = useCallback(() => {
+    for (let i: number = 0; i < length; i++) {
+      const randomNumber: number = Math.floor(Math.random() * password.length);
+      if (
+        !disabledInputs.includes(randomNumber) &&
+        disabledInputs.length < password.length / 3
+      )
+        disabledInputs.push(randomNumber);
 
-    if (i >= password.length) disabledInputs.push(i);
-  }
+      if (i >= password.length) disabledInputs.push(i);
+    }
+  }, [password, onSucces]);
+
+  fillDisabledInputs();
 
   const handleSubmitForm = useCallback(
     (e) => {
       e.preventDefault();
 
-      const isCharCorrect = (el: HTMLInputElement, idx: number) => {
+      const isCharCorrect = (el: HTMLInputElement, idx: number): boolean => {
         if (!el.disabled) {
           return el.value === password[idx];
         }
@@ -43,18 +50,32 @@ const PasswordInput: FC<Props> = ({ password, onSucces }) => {
 
   return (
     <form onSubmit={handleSubmitForm}>
-      {Array.from({ length }).map((_, idx) => (
-        <input
-          key={idx}
-          type="text"
-          disabled={idx === disabledInputs.find((el) => el === idx)}
-          ref={(ref) => (inputsRef.current[idx] = ref)}
-          minLength={1}
-          maxLength={1}
-          required
-        />
-      ))}
-      <input type="submit" value="click" />
+      <div>
+        {Array.from({ length }).map((_: any, idx: number) => (
+          <input
+            autoFocus={idx === 0}
+            key={idx}
+            type={isPasswordVisible ? "text" : "password"}
+            disabled={idx === disabledInputs.find((el: number) => el === idx)}
+            ref={(ref: HTMLInputElement) => (inputsRef.current[idx] = ref)}
+            minLength={1}
+            maxLength={1}
+            required
+            value={
+              idx === disabledInputs.find((el: number) => el === idx)
+                ? password[idx]
+                : undefined
+            }
+          />
+        ))}
+      </div>
+      <input type="submit" value="submit" />
+      <input
+        type="checkbox"
+        onChange={() => {
+          togglePasswordVisibility(!isPasswordVisible);
+        }}
+      />
     </form>
   );
 };
