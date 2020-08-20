@@ -1,4 +1,4 @@
-import React, { useCallback, useState, useRef, FC, useEffect } from "react";
+import React, { useCallback, useState, useRef, FC } from "react";
 
 interface Props {
   password: String;
@@ -27,7 +27,7 @@ const PasswordInput: FC<Props> = ({ password, onSucces }) => {
 
       if (i >= password.length) disabledInputs.push(i);
     }
-  }, [password, onSucces]);
+  }, [password, onSucces, length]);
 
   fillDisabledInputs();
 
