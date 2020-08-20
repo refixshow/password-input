@@ -12,9 +12,9 @@ const PasswordInput: FC<Props> = ({ password, onSucces }) => {
   const [length] = useState(
     Math.floor(Math.random() * 5) + password.length + 2
   );
-  const [isPasswordVisible, togglePasswordVisibility] = useState<boolean>(
-    false
-  );
+  // const [isPasswordVisible, togglePasswordVisibility] = useState<boolean>(
+  //   false
+  // );
 
   const fillDisabledInputs = useCallback(() => {
     for (let i: number = 0; i < length; i++) {
@@ -56,7 +56,8 @@ const PasswordInput: FC<Props> = ({ password, onSucces }) => {
             name={`password char ${idx}`}
             autoFocus={idx === 0}
             key={idx}
-            type={isPasswordVisible ? "text" : "password"}
+            type="text"
+            // type={isPasswordVisible ? "text" : "password"}
             disabled={idx === disabledInputs.find((el: number) => el === idx)}
             ref={(ref: HTMLInputElement) => (inputsRef.current[idx] = ref)}
             minLength={1}
@@ -72,12 +73,12 @@ const PasswordInput: FC<Props> = ({ password, onSucces }) => {
       </div>
       <div>
         <input type="submit" value="submit" />
-        <input
+        {/* <input
           type="checkbox"
           onChange={() => {
             togglePasswordVisibility(!isPasswordVisible);
           }}
-        />
+        /> */}
       </div>
     </form>
   );
